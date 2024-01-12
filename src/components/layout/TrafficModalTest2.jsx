@@ -18,6 +18,7 @@ import { Dashboard } from "assets/styles/home/dashboard";
 import Compressor from "compressorjs";
 import Card from "components/common/Card";
 import MapComponent from "routes/Home/MainBody/Dashboard/MapComponent";
+import DetailAddress from "./DetailAddress";
 
 export const TrafficModalTest2 = ({
   setTrafficModal,
@@ -107,36 +108,36 @@ export const TrafficModalTest2 = ({
   //   presentHandler(typeKind, dataUrl);
   // }
 
-  useEffect(() => {
-    loader(true);
-    if (codeList.some((x) => x === info.CompanyCode)) {
-      let stream;
+  // useEffect(() => {
+  //   loader(true);
+  //   if (codeList.some((x) => x === info.CompanyCode)) {
+  //     let stream;
 
-      async function getMedia() {
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-          });
-          videoRef.current.srcObject = stream;
-          videoRef.current.style.transform = "scaleX(-1)";
-          setCameraButton(true);
-          loader(false);
-        } catch (err) {
-          loader(false);
-          console.error(err);
-        }
-      }
+  //     async function getMedia() {
+  //       try {
+  //         stream = await navigator.mediaDevices.getUserMedia({
+  //           video: true,
+  //         });
+  //         videoRef.current.srcObject = stream;
+  //         videoRef.current.style.transform = "scaleX(-1)";
+  //         setCameraButton(true);
+  //         loader(false);
+  //       } catch (err) {
+  //         loader(false);
+  //         console.error(err);
+  //       }
+  //     }
 
-      getMedia();
+  //     getMedia();
 
-      return () => {
-        if (stream) {
-          const tracks = stream.getTracks();
-          tracks.forEach((track) => track.stop());
-        }
-      };
-    }
-  }, []);
+  //     return () => {
+  //       if (stream) {
+  //         const tracks = stream.getTracks();
+  //         tracks.forEach((track) => track.stop());
+  //       }
+  //     };
+  //   }
+  // }, []);
 
   // Helper function to convert data URL to Blob object
   function dataURLtoBlob(dataUrl) {
@@ -151,201 +152,201 @@ export const TrafficModalTest2 = ({
     return new Blob([u8arr], { type: mime });
   }
 
-  function convertToBase64(blob) {
-    const reader = new FileReader();
-    reader.onloadend = function () {
-      const base64String = reader.result;
-      setImage(base64String);
-      setTakeImage(base64String);
-      presentHandler(typeKind, base64String);
-      setPermission(false);
-      setCameraButton(false);
-    };
-    console.log("blobblob", blob);
-    reader.readAsDataURL(blob);
-  }
+  // function convertToBase64(blob) {
+  //   const reader = new FileReader();
+  //   reader.onloadend = function () {
+  //     const base64String = reader.result;
+  //     setImage(base64String);
+  //     setTakeImage(base64String);
+  //     presentHandler(typeKind, base64String);
+  //     setPermission(false);
+  //     setCameraButton(false);
+  //   };
+  //   console.log("blobblob", blob);
+  //   reader.readAsDataURL(blob);
+  // }
 
-  function takePicture() {
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-    context.drawImage(video, 0, 0, 320, 240);
-    const dataUrl = canvas.toDataURL("image/webp");
-    // Convert data URL to Blob object
-    const blob = dataURLtoBlob(dataUrl);
-    // Use Compressor.js to compress the image
-    new Compressor(blob, {
-      quality: 0.6, // Adjust the quality value as per your requirements (0.6 means 60% quality)
-      success(result) {
-        convertToBase64(result);
-      },
-      error(err) {
-        console.error(err);
-      },
-    });
-  }
+  // function takePicture() {
+  //   const video = videoRef.current;
+  //   const canvas = canvasRef.current;
+  //   const context = canvas?.getContext("2d");
+  //   context.drawImage(video, 0, 0, 320, 240);
+  //   const dataUrl = canvas.toDataURL("image/webp");
+  //   // Convert data URL to Blob object
+  //   const blob = dataURLtoBlob(dataUrl);
+  //   // Use Compressor.js to compress the image
+  //   new Compressor(blob, {
+  //     quality: 0.6, // Adjust the quality value as per your requirements (0.6 means 60% quality)
+  //     success(result) {
+  //       convertToBase64(result);
+  //     },
+  //     error(err) {
+  //       console.error(err);
+  //     },
+  //   });
+  // }
 
-  useEffect(() => {
-    const type = 159;
-    console.log("locations", locations);
-    if (!!locations.error) {
-      console.log("Location Error! :(");
-    } else {
-      console.log("permission", permission);
-      console.log("image", image);
-      console.log(
-        "codeList.some((x) => x === info.CompanyCode)",
-        codeList.some((x) => x === info.CompanyCode)
-      );
-      if (
-        !permission &&
-        !image &&
-        codeList.some((x) => x === info.CompanyCode)
-      ) {
-        setPermission(true);
-        setCameraButton(true);
-        setTypeKind(type);
-      } else {
-        let entryTypes = entryType === "in" ? "out" : "in";
-        setLoading(true);
-        loader(true);
-        axios
-          .get(
-            `${api.api}/v1/ta/clockings?filter_groups[0][filters][0][key]=user_id&filter_groups[0][filters][0][value][0]=${info.UserId}&filter_groups[0][filters][0][operator]=in&sort[0][key]=datetime&sort[0][direction]=DESC&limit=1&page=0`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-          .then((res) => {
-            if (
-              res.data.data.clockings[0].datetime.split(" ")[1] ===
-              jMoment().format("HH:mm:00")
-            ) {
-              errorMessage("!لطفا یک دقیقه منتظر بمانید");
-              setImage(null);
-              setLoading(false);
-              loader(false);
-            } else {
-              dispatch(setTraffic(true));
-              axios
-                .post(
-                  `${api.api}/v1/ta/clockings`,
-                  {
-                    clocking: {
-                      latitude: locations.lat,
-                      longitude: locations.long,
-                      type_id: type,
-                      user_id: info.UserId,
-                      picture: image,
-                      //   entry_type: type !== 159 ? "out" : entryTypes,
-                      entry_type: entryTypes,
-                      datetime: `${finallDate
-                        .reverse()
-                        .join("-")} ${date.getHours()}:${date.getMinutes()}`,
-                      key: (
-                        CRC32.str(
-                          `*${info.UserId},${finallDate.reverse().join("-")},${
-                            date.getHours() < 10
-                              ? `0${date.getHours()}`
-                              : date.getHours()
-                          }:${
-                            date.getMinutes() < 10
-                              ? `0${date.getMinutes()}`
-                              : date.getMinutes()
-                          },${type},${
-                            entryTypes === "in" ? "1" : "0"
-                            // type !== 159 ? "0" : entryTypes === "in" ? "1" : "0"
-                          },${!!locations.lat ? locations.lat : "35.66"},${
-                            !!locations.long ? locations.long : "51.4"
-                          }*`
-                        ) >>> 0
-                      ).toString(16),
-                    },
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
-                  }
-                )
-                .then((res) => {
-                  if (199 < res.data.code && res.data.code < 400) {
-                    setLoading(false);
-                    loader(false);
-                    dispatch(setTraffic(false));
-                    setTrafficModal(false);
-                    successMessage(".تردد شما با موفقیت ثبت شد");
-                  } else {
-                    setLoading(false);
-                    loader(false);
-                    dispatch(setTraffic(false));
-                    setTrafficModal(false);
-                    errorMessage(res.data.data.notice.message);
-                  }
-                });
-            }
-          });
-      }
-    }
-  }, [image]);
-  const presentHandler = (type, imageUrl) => {};
+  // useEffect(() => {
+  //   const type = 159;
+  //   console.log("locations", locations);
+  //   if (!!locations.error) {
+  //     console.log("Location Error! :(");
+  //   } else {
+  //     console.log("permission", permission);
+  //     console.log("image", image);
+  //     console.log(
+  //       "codeList.some((x) => x === info.CompanyCode)",
+  //       codeList.some((x) => x === info.CompanyCode)
+  //     );
+  //     if (
+  //       !permission &&
+  //       !image &&
+  //       codeList.some((x) => x === info.CompanyCode)
+  //     ) {
+  //       setPermission(true);
+  //       setCameraButton(true);
+  //       setTypeKind(type);
+  //     } else {
+  //       let entryTypes = entryType === "in" ? "out" : "in";
+  //       setLoading(true);
+  //       loader(true);
+  //       axios
+  //         .get(
+  //           `${api.api}/v1/ta/clockings?filter_groups[0][filters][0][key]=user_id&filter_groups[0][filters][0][value][0]=${info.UserId}&filter_groups[0][filters][0][operator]=in&sort[0][key]=datetime&sort[0][direction]=DESC&limit=1&page=0`,
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${token}`,
+  //             },
+  //           }
+  //         )
+  //         .then((res) => {
+  //           if (
+  //             res.data.data.clockings[0].datetime.split(" ")[1] ===
+  //             jMoment().format("HH:mm:00")
+  //           ) {
+  //             errorMessage("!لطفا یک دقیقه منتظر بمانید");
+  //             setImage(null);
+  //             setLoading(false);
+  //             loader(false);
+  //           } else {
+  //             dispatch(setTraffic(true));
+  //             axios
+  //               .post(
+  //                 `${api.api}/v1/ta/clockings`,
+  //                 {
+  //                   clocking: {
+  //                     latitude: locations.lat,
+  //                     longitude: locations.long,
+  //                     type_id: type,
+  //                     user_id: info.UserId,
+  //                     picture: image,
+  //                     //   entry_type: type !== 159 ? "out" : entryTypes,
+  //                     entry_type: entryTypes,
+  //                     datetime: `${finallDate
+  //                       .reverse()
+  //                       .join("-")} ${date.getHours()}:${date.getMinutes()}`,
+  //                     key: (
+  //                       CRC32.str(
+  //                         `*${info.UserId},${finallDate.reverse().join("-")},${
+  //                           date.getHours() < 10
+  //                             ? `0${date.getHours()}`
+  //                             : date.getHours()
+  //                         }:${
+  //                           date.getMinutes() < 10
+  //                             ? `0${date.getMinutes()}`
+  //                             : date.getMinutes()
+  //                         },${type},${
+  //                           entryTypes === "in" ? "1" : "0"
+  //                           // type !== 159 ? "0" : entryTypes === "in" ? "1" : "0"
+  //                         },${!!locations.lat ? locations.lat : "35.66"},${
+  //                           !!locations.long ? locations.long : "51.4"
+  //                         }*`
+  //                       ) >>> 0
+  //                     ).toString(16),
+  //                   },
+  //                 },
+  //                 {
+  //                   headers: {
+  //                     Authorization: `Bearer ${token}`,
+  //                   },
+  //                 }
+  //               )
+  //               .then((res) => {
+  //                 if (199 < res.data.code && res.data.code < 400) {
+  //                   setLoading(false);
+  //                   loader(false);
+  //                   dispatch(setTraffic(false));
+  //                   setTrafficModal(false);
+  //                   successMessage(".تردد شما با موفقیت ثبت شد");
+  //                 } else {
+  //                   setLoading(false);
+  //                   loader(false);
+  //                   dispatch(setTraffic(false));
+  //                   setTrafficModal(false);
+  //                   errorMessage(res.data.data.notice.message);
+  //                 }
+  //               });
+  //           }
+  //         });
+  //     }
+  //   }
+  // }, [image]);
+  // const presentHandler = (type, imageUrl) => {};
 
-  useEffect(() => {
-    setLoading(true);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        axios
-          .get(
-            `${api.api}/v1/ta/clockings?filter_groups[0][filters][0][key]=user_id&filter_groups[0][filters][0][value][0]=${info.UserId}&filter_groups[0][filters][0][operator]=in&sort[0][key]=datetime&sort[0][direction]=DESC&limit=1&page=0`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-          .then((res) => {
-            if (
-              res.data.data.clockings[0].datetime.split(" ")[0] !==
-              jMoment().format("YYYY-MM-DD")
-            ) {
-              setEntryType("out");
-            } else {
-              setEntryType(res.data.data.clockings[0].entry_type);
-            }
-            setLoading(false);
-          });
-        setLocations({
-          lat: position.coords.latitude,
-          long: position.coords.longitude,
-        });
-      },
-      (error) => {
-        axios
-          .get(
-            `${api.api}/v1/ta/clockings?filter_groups[0][filters][0][key]=user_id&filter_groups[0][filters][0][value][0]=${info.UserId}&filter_groups[0][filters][0][operator]=in&sort[0][key]=datetime&sort[0][direction]=DESC&limit=1&page=0`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-          .then((res) => {
-            if (
-              res.data.data.clockings[0].datetime.split(" ")[0] !==
-              jMoment().format("YYYY-MM-DD")
-            ) {
-              setEntryType("out");
-            } else {
-              setEntryType(res.data.data.clockings[0].entry_type);
-            }
-            setLoading(false);
-          });
-        setLocations({ error: "دسترسی به موقعیت مکانی شما امکان پذیر نیست." });
-      }
-    );
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   navigator.geolocation.getCurrentPosition(
+  //     (position) => {
+  //       axios
+  //         .get(
+  //           `${api.api}/v1/ta/clockings?filter_groups[0][filters][0][key]=user_id&filter_groups[0][filters][0][value][0]=${info.UserId}&filter_groups[0][filters][0][operator]=in&sort[0][key]=datetime&sort[0][direction]=DESC&limit=1&page=0`,
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${token}`,
+  //             },
+  //           }
+  //         )
+  //         .then((res) => {
+  //           if (
+  //             res.data.data.clockings[0].datetime.split(" ")[0] !==
+  //             jMoment().format("YYYY-MM-DD")
+  //           ) {
+  //             setEntryType("out");
+  //           } else {
+  //             setEntryType(res.data.data.clockings[0].entry_type);
+  //           }
+  //           setLoading(false);
+  //         });
+  //       setLocations({
+  //         lat: position.coords.latitude,
+  //         long: position.coords.longitude,
+  //       });
+  //     },
+  //     (error) => {
+  //       axios
+  //         .get(
+  //           `${api.api}/v1/ta/clockings?filter_groups[0][filters][0][key]=user_id&filter_groups[0][filters][0][value][0]=${info.UserId}&filter_groups[0][filters][0][operator]=in&sort[0][key]=datetime&sort[0][direction]=DESC&limit=1&page=0`,
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${token}`,
+  //             },
+  //           }
+  //         )
+  //         .then((res) => {
+  //           if (
+  //             res.data.data.clockings[0].datetime.split(" ")[0] !==
+  //             jMoment().format("YYYY-MM-DD")
+  //           ) {
+  //             setEntryType("out");
+  //           } else {
+  //             setEntryType(res.data.data.clockings[0].entry_type);
+  //           }
+  //           setLoading(false);
+  //         });
+  //       setLocations({ error: "دسترسی به موقعیت مکانی شما امکان پذیر نیست." });
+  //     }
+  //   );
+  // }, []);
 
   function openCollapse() {
     setCollapse(!collapse);
@@ -371,8 +372,11 @@ export const TrafficModalTest2 = ({
   ];
   const [showMap, setShowMap] = useState(false);
   const openMap = () => {
-    setShowMap(true);
+    setShowMap(1);
   };
+  const savedLatitude=localStorage.getItem("savedLatitude")
+  const savedLongitude=localStorage.getItem("savedLongitude")
+
   return (
     <>
       <Overlay
@@ -390,21 +394,26 @@ export const TrafficModalTest2 = ({
         }}
       >
         <Card color={"#fff"}>
-          {showMap && <MapComponent height="100%" setShowMap={setShowMap} />}
+          {showMap==1 && <MapComponent height="100%" setShowMap={setShowMap} savedLongitude={savedLongitude} savedLatitude={savedLatitude}/>}
+          {showMap==2 && <DetailAddress setShowMap={setShowMap} savedLongitude={savedLongitude} savedLatitude={savedLatitude}/> }
+        
+
+          {showMap==0 &&  
+          <>    
           <TitleCard>
             <div>انتخاب آدرس</div>
             <div className="newAddress" onClick={openMap}>
               + آدرس جدید
             </div>
           </TitleCard>
-
-          {!showMap &&
-            Address.map((el) => (
+          {  Address.map((el) => (
               <AddressCard>
                 <div>{el.Title}</div>
                 <div>{el.Address}</div>
               </AddressCard>
             ))}
+          </>   
+             }
         </Card>
       </div>
     </>

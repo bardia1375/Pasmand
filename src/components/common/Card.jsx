@@ -13,7 +13,8 @@ const CardContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: auto;
+  overflow-Y: auto;
+  overflow-x:none;
   margin: ${(props) => (props.margin ? props.margin : "0")};
 `;
 

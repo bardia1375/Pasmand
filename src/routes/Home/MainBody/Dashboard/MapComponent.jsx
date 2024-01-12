@@ -38,7 +38,7 @@ const CircularMarker = styled.div`
   }
 `;
 
-function MapComponent({ userLocation, date, height, setShowMap }) {
+function MapComponent({ userLocation, date, height, setShowMap,Search ,detail}) {
   const mapRef = useRef(null); // Ref to store the map instance
   const x = JSON.parse(localStorage.getItem("users"));
   const Users = x?.filter((res) => res?.Date == date)[0]?.persons;
@@ -187,6 +187,7 @@ function MapComponent({ userLocation, date, height, setShowMap }) {
     // You can do more with the clicked coordinates if needed
     console.log("Clicked on map:", lat, lng);
   };
+ console.log("detail",detail);
   return (
     <MapContainer
       center={positionSearch}
@@ -210,7 +211,7 @@ function MapComponent({ userLocation, date, height, setShowMap }) {
           left:"32px"
         }}
       >
-        <div style={{ position: "relative" }}>
+ { Search&&      <div style={{ position: "relative" }}>
           <input
             type="text"
             placeholder="جستجو موقعیت مکانی"
@@ -244,7 +245,7 @@ function MapComponent({ userLocation, date, height, setShowMap }) {
             src={SearchImg}
             alt="Search"
           />
-        </div>
+        </div>}
         {/* <button onClick={this.handleSearchSubmit}>Search</button> */}
       </div>
       <Polyline pathOptions={limeOptions} positions={polyline} />

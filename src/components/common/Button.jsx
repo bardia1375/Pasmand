@@ -2,8 +2,8 @@ import styled, { css, keyframes } from "styled-components";
 
 export const Button = styled.button`
   display: ${({ display }) => (display ? display : "block")};
-  justify-content: ${({ justify }) => justify};
-  align-items: ${({ align }) => align};
+  justify-content: ${({ justify }) => justify?justify:"center"};
+  align-items: ${({ align }) => align?align:"center"};
   gap: ${({ gap }) => (gap ? gap : "10px")};
   text-align: ${({ textAlign }) => textAlign};
   padding: ${({ padding }) => (padding ? padding : "2px 30px")};

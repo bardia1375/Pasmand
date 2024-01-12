@@ -455,7 +455,8 @@ export const Field = ({
               )}
             </div>
           )}
-          <Typography color={color} size={"sm"}>
+          <div style={{display:"flex",flexDirection:"column",width:"100%"}}>
+          <Typography color={color} size={"sm"} whiteSpace>
             {label}
           </Typography>
           <FormBuilderStyle.InputTextName
@@ -494,7 +495,7 @@ export const Field = ({
             min={min}
             max={max}
             width={width}
-          />
+          /></div>
         </>
       )}
     </FormBuilderStyle.InputBody>

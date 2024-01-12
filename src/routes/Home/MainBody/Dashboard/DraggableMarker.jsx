@@ -23,7 +23,7 @@ export function DraggableMarker({ setShowMap, height, setSearchTerm }) {
         if (marker != null) {
           const newPosition = marker.getLatLng();
           setPosition(newPosition);
-          getAddress(newPosition);
+          // getAddress(newPosition);
         }
       },
       click() {
@@ -31,9 +31,10 @@ export function DraggableMarker({ setShowMap, height, setSearchTerm }) {
         const marker = markerRef.current;
         if (marker != null) {
           const newPosition = marker.getLatLng();
+          console.log("newPosition",newPosition);
           setPosition(newPosition);
-          setShowMap(false);
-          getAddress(newPosition);
+          setShowMap(2);
+          // getAddress(newPosition);
 
           // Save the updated latitude and longitude to localStorage
           const latitude = newPosition.lat;
@@ -82,10 +83,10 @@ export function DraggableMarker({ setShowMap, height, setSearchTerm }) {
     }
   };
 
-  useEffect(() => {
-    // Initial address retrieval
-    getAddress(position);
-  }, [position]);
+  // useEffect(() => {
+  //   // Initial address retrieval
+  //   getAddress(position);
+  // }, [position]);
   console.log("address", address);
   return (
     <Marker

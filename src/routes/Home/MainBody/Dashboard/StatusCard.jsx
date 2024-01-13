@@ -174,7 +174,7 @@ function StatusCard({
           {[
             { title: "ثبت آدرس", Url: "/clocking" },
             { title: "زمان ارسال", Url: "/sendingTime" },
-            { title: "نمودارها", Url: "/diagram" },
+            { title: "سفارش ها", Url: "/order" },
             { title: "برنامه هفتگی", Url: "/weeklyPlan" },
           ].map((item, index) => (
             <Dashboard.StatusItem
@@ -216,7 +216,7 @@ function StatusCard({
                       ? Leave
                       : item.title === "زمان ارسال"
                       ? Mission
-                      : item.title === "نمودارها"
+                      : item.title === "سفارش ها"
                       ? piechart
                       : plan
                   }

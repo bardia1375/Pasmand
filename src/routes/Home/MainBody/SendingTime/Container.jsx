@@ -16,6 +16,14 @@ export const SendingTimeWrapper = () => {
   console.log("Address", Address);
   const [getDay, setGetDay] = useState([]);
   const [getTime, setGetTime] = useState([]);
+  const timeInformation=JSON.parse(localStorage.getItem("timeInformation"))
+  const dateInformation=JSON.parse(localStorage.getItem("dateInformation"))
+  useEffect(()=>{
+    setGetDay(dateInformation?dateInformation:[])
+  },[])
+  useEffect(()=>{
+    setGetTime(timeInformation?timeInformation:[])
+  },[])
 
   const savedLatitude = localStorage.getItem("savedLatitude");
   const savedLongitude = localStorage.getItem("savedLongitude");

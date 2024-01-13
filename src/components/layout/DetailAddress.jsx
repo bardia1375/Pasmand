@@ -46,13 +46,22 @@ const reducerMethod = (state, action) => {
       return state;
   }
 };
-function DetailAddress({ setShowMap, setAddress, Address }) {
+function DetailAddress({ setShowMap, setAddress, Address ,showMap,getAddress}) {
   const savedLatitude = localStorage.getItem("savedLatitude");
   const savedLongitude = localStorage.getItem("savedLongitude");
   const [detail, setDetail] = useState([]);
 
   const [state, dispatch] = useReducer(reducerMethod, initialValue);
-  const onSubmit = () => {
+  const [loading,setLoading]=useState(false)
+
+  // useEffect(()=>{
+  //   localStorage.setItem(
+  //     "savedAddress",
+  //  JSON.stringify(Address))
+  // console.log("AddressAddress",Address);
+  // },[loading])
+
+ const onSubmit = () => {
     console.log("initialValue", state);
 
     // Save the state object to localStorage as a JSON string
@@ -62,17 +71,22 @@ function DetailAddress({ setShowMap, setAddress, Address }) {
       addressTitle: state.addressTitle,
       phoneNumber: state.phoneNumber,
     };
-    setAddress([
-      localStorage.setItem(
-        "savedAddress",
-        JSON.stringify([...Address, stateObj])
-      ),
-    ]);
+    setLoading(true)
+    // setAddress((prev) => [...prev, stateObj]);
+    getAddress(stateObj)
+  //   localStorage.setItem(
+  //     "savedAddress",
+  //  JSON.stringify(Address))
+
+  console.log("AddressAddress",Address);
+
+    
 
     // localStorage.setItem("savedAddress", JSON.stringify(stateObj));
     setShowMap(0);
     console.log("State object saved to localStorage:", stateObj);
   };
+
   useEffect(() => {
     dispatch({
       type: "Location",

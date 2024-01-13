@@ -221,7 +221,7 @@ export const Menu = ({ setOpenModal, openModal }) => {
             </Item>
             <Item onClick={() => clickHandler("/diagram")}>
               <img width={25} src={WorkReport} alt={"WorkReport"} />
-              نمودارها
+              سفارش ها
             </Item>
             {/* <Item>
               <img width={25} src={MyShift} alt={"MyShift"} /> شیفت‌های من

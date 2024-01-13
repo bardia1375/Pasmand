@@ -377,14 +377,37 @@ export const TrafficModalTest2 = ({
   // } else {
   //   console.log("No saved state found in localStorage");
   // }
-  const [Address, setAddress] = useState(
-    JSON.parse(localStorage.getItem("savedAddress"))
-  );
-  console.log("Address", Address);
+  const [Address,setAddress]=useState([])
   const [showMap, setShowMap] = useState(false);
+ 
+  const savedAddress=JSON.parse(localStorage.getItem("savedAddress"))
+  useEffect(()=>{
+    setAddress(savedAddress?savedAddress:[])
+    console.log("salam");
+  },[])
+
+
+
+
+
   const openMap = () => {
     setShowMap(1);
   };
+  const getAddress=(data)=>{
+         console.log("data",data);
+         setAddress((prev) => [...prev, data]);
+      //    localStorage.setItem(
+      //     "savedAddress",
+      //  JSON.stringify(Address))
+  }   
+  useEffect(()=>{
+    localStorage.setItem(
+          "savedAddress",
+       JSON.stringify(Address))
+  },[Address.length]) 
+     console.log("Address123",Address);
+
+
   const savedLatitude = localStorage.getItem("savedLatitude");
   const savedLongitude = localStorage.getItem("savedLongitude");
   return (
@@ -426,6 +449,8 @@ export const TrafficModalTest2 = ({
                 setShowMap={setShowMap}
                 savedLongitude={savedLongitude}
                 savedLatitude={savedLatitude}
+                showMap={showMap}
+                getAddress={getAddress}
               />
             </div>
           )}

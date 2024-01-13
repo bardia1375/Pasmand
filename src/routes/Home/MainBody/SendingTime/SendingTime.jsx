@@ -24,7 +24,6 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
       localStorage.getItem("timeAndDateOrder")
     );
     console.log("timeAndDateOrder", timeAndDateOrder);
-    setGetDay((prev) => [...prev, timeAndDateOrder]);
   }, []);
   const selectItem = (el, index) => {
     const updatedTimes = times.map((time, i) => {
@@ -37,8 +36,11 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
     });
     console.log("updatedDays", updatedTimes);
     setTimes(updatedTimes);
-    setGetTime((prev) => [...prev, el]);
+      setGetTime((prev) => [...prev, el]);
+
+    
   };
+  
   const selectDays = (el, index) => {
     const updatedDays = days.map((day, i) => {
       console.log("123123", index);
@@ -50,14 +52,15 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
     });
     console.log("updatedDays", updatedDays);
     setDays(updatedDays);
-    setGetDay((prev) => [...prev, el]);
+      setGetDay((prev) => [...prev, el]);
+
+    
   };
   const onSubmit = () => {
     console.log();
     setShowMap(0);
-    localStorage.setItem("timeAndDateOrder", JSON.stringify([getDay]));
-    localStorage.setItem("timeAndDateOrder2", JSON.stringify([getTime]));
-
+    localStorage.setItem("dateInformation", JSON.stringify(getDay));
+    localStorage.setItem("timeInformation", JSON.stringify(getTime));
     // const data = [...getDay, ...getTime];
     // console.log("data", data);
     // localStorage.setItem("timeAndDateOrder", JSON.stringify(data));

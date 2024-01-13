@@ -124,26 +124,20 @@ export const MyDiagram = () => {
     setDate(date);
     localStorage.setItem("date",date);
   };
+  const timeInformation=JSON.parse(localStorage.getItem("timeAndDateOrder2"))
+  const dateInformation=JSON.parse(localStorage.getItem("timeAndDateOrder"))
+ console.log("timeInformation",timeInformation);
+ console.log("dateInformation",dateInformation);
+
   return (
     <div>
-      <DateNavHeader getDate={getDate} />
+      {/* <DateNavHeader getDate={getDate} /> */}
 
       <Card height="calc(100vh - 400px)" margin="24px 0 0 0">
-        <div
-          style={{
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <ReactApexChart
-            options={chartData.options}
-            series={chartData.series}
-            type="donut"
-            height={350}
-          />
-        </div>
+    {timeInformation&&timeInformation.map((el)=>{
+          return <div>{el.text}</div>
+          }
+    )}
       </Card>
     </div>
   );

@@ -68,8 +68,8 @@ const routes = {
       element: <MyWorker />,
     },
     {
-      name: "diagram",
-      path: "/diagram",
+      name: "order",
+      path: "/order",
       element: <MyDiagram />,
     },
     {

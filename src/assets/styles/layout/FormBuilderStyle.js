@@ -122,7 +122,6 @@ export const InputTextName = styled.input`
   width: ${({ width }) => (width ? width : "100%")};
 
   height: 28px;
-  padding-right: 5px;
   margin: ${({ noMargin }) => (noMargin ? null : "5px 20px 5px 0px")};
   background: #ffffff 0% 0% no-repeat padding-box;
   /* border: 1px solid #cbcbcb; */
@@ -174,10 +173,11 @@ export const CheckMark = styled.span`
   position: absolute;
   top: 0;
   right: 0;
+  bottom: 0;
   height: 25px;
   width: 25px;
   border: 1px solid #9e9e9e;
-  border-radius: 10px;
+  border-radius: 4px;
   :hover {
     background-color: #ccc;
   }
@@ -225,7 +225,7 @@ export const InputCheckBox = styled.input`
   width: 0;
   :checked + p + span {
     background-color: ${({ color }) => (color ? color : "#666666")};
-    border-radius: 10px;
+    border-radius: 4px;
     border: none;
   }
 

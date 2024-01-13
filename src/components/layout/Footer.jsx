@@ -52,7 +52,7 @@ export const Footer = () => {
       setTrafficModal(false);
       localStorage.setItem("endTime", moment().format("HH:mm"));
       setTimer(false);
-      navigate("trafficRange");
+      navigate("sendingTime");
       // const timeDifferenceInMinutes = endTime.diff(startTime, "minutes");
       // console.log("timeDifferenceInMinutes", timeDifferenceInMinutes);
     } else {

@@ -212,8 +212,8 @@ export const Menu = ({ setOpenModal, openModal }) => {
             <Item onClick={() => clickHandler("/clocking")}>
               <img width={25} src={MyTraffic} alt={"MyTraffic"} /> ثبت آدرس
             </Item>
-            <Item onClick={() => clickHandler("/trafficRange")}>
-              <img width={25} src={MyTraffic} alt={"MyTraffic"} /> محدوده تردد
+            <Item onClick={() => clickHandler("/sendingTime")}>
+              <img width={25} src={MyTraffic} alt={"MyTraffic"} /> زمان ارسال
             </Item>
             <Item onClick={() => clickHandler("/weeklyPlan")}>
               <img width={25} src={MyTraffic} alt={"MyTraffic"} />

@@ -14,7 +14,7 @@ const CardContainer = styled.div`
   justify-content: center;
   align-items: center;
   overflow-Y: auto;
-  overflow-x:none;
+  overflow-x:hidden;
   margin: ${(props) => (props.margin ? props.margin : "0")};
 `;
 

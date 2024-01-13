@@ -358,25 +358,35 @@ export const TrafficModalTest2 = ({
       growDiv.style.height = wrapper.clientHeight + "px";
     }
   }
-  const Address = [
-    {
-      Title: "کتابخانه ملی ایران",
-      Address:
-        "تهران - اراضی عباس آباد - بزرگراه شهید همت - شهدای بانک مرکزی کتابخانه ملی ایران",
-    },
-    {
-      Title: "کتابخانه ملی ایران",
-      Address:
-        "تهران - اراضی عباس آباد - بزرگراه شهید همت - شهدای بانک مرکزی کتابخانه ملی ایران",
-    },
-  ];
+  // const Address = [
+  //   {
+  //     Title: "کتابخانه ملی ایران",
+  //     Address:
+  //       "تهران - اراضی عباس آباد - بزرگراه شهید همت - شهدای بانک مرکزی کتابخانه ملی ایران",
+  //   },
+  //   {
+  //     Title: "کتابخانه ملی ایران",
+  //     Address:
+  //       "تهران - اراضی عباس آباد - بزرگراه شهید همت - شهدای بانک مرکزی کتابخانه ملی ایران",
+  //   },
+  // ];
+  // const savedStateString = localStorage.getItem("savedAddress");
+  // if (savedStateString) {
+  //   const savedState = JSON.parse(savedStateString);
+  //   console.log("savedState", savedState);
+  // } else {
+  //   console.log("No saved state found in localStorage");
+  // }
+  const [Address, setAddress] = useState(
+    JSON.parse(localStorage.getItem("savedAddress"))
+  );
+  console.log("Address", Address);
   const [showMap, setShowMap] = useState(false);
   const openMap = () => {
     setShowMap(1);
   };
-  const savedLatitude=localStorage.getItem("savedLatitude")
-  const savedLongitude=localStorage.getItem("savedLongitude")
-
+  const savedLatitude = localStorage.getItem("savedLatitude");
+  const savedLongitude = localStorage.getItem("savedLongitude");
   return (
     <>
       <Overlay
@@ -393,27 +403,51 @@ export const TrafficModalTest2 = ({
           bottom: 0,
         }}
       >
-        <Card color={"#fff"}>
-          {showMap==1 && <MapComponent height="100%" setShowMap={setShowMap} savedLongitude={savedLongitude} savedLatitude={savedLatitude}/>}
-          {showMap==2 && <DetailAddress setShowMap={setShowMap} savedLongitude={savedLongitude} savedLatitude={savedLatitude}/> }
-        
-
-          {showMap==0 &&  
-          <>    
-          <TitleCard>
-            <div>انتخاب آدرس</div>
-            <div className="newAddress" onClick={openMap}>
-              + آدرس جدید
+        <Card color={"#f1f1f1"}>
+          {showMap == 1 && (
+            <MapComponent
+              height="100%"
+              setShowMap={setShowMap}
+              savedLongitude={savedLongitude}
+              savedLatitude={savedLatitude}
+            />
+          )}
+          {showMap == 2 && (
+            <div
+              style={{
+                overflowY: "scroll",
+                overflowX: "hidden",
+                height: "100%",
+              }}
+            >
+              <DetailAddress
+                Address={Address}
+                setAddress={setAddress}
+                setShowMap={setShowMap}
+                savedLongitude={savedLongitude}
+                savedLatitude={savedLatitude}
+              />
             </div>
-          </TitleCard>
-          {  Address.map((el) => (
-              <AddressCard>
-                <div>{el.Title}</div>
-                <div>{el.Address}</div>
-              </AddressCard>
-            ))}
-          </>   
-             }
+          )}
+
+          {showMap == 0 && (
+            <>
+              <TitleCard>
+                <div>آدرس جدید:</div>
+                <div className="newAddress" onClick={openMap}>
+                  + آدرس جدید
+                </div>
+              </TitleCard>
+              {Address?.map((el) => (
+                <AddressCard>
+                  <div>عنوان: {el?.addressTitle}</div>
+                  <div>{el?.Address}</div>
+                  <div>{el?.details}</div>
+                  <div>شماره تماس: {el?.phoneNumber}</div>
+                </AddressCard>
+              ))}
+            </>
+          )}
         </Card>
       </div>
     </>

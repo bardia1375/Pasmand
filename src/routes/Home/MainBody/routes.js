@@ -12,6 +12,7 @@ import { MyWorker } from "./MyWeeklyPlan/MyWorker/Container";
 import { MyDiagram } from "./MyDiagram/Container";
 import { MyDiagramInfo } from "./MyDiagram/MyDiagramInfo/Container";
 import { MyClocking } from "./MyClocking/Container";
+import { SendingTimeWrapper } from "./SendingTime/Container";
 
 const routes = {
   path: "/",
@@ -47,14 +48,14 @@ const routes = {
     },
 
     // {
-    //   name: "trafficRange",
-    //   path: "/trafficRange",
+    //   name: "sendingTime",
+    //   path: "/sendingTime",
     //   element: <MyTraffics />,
     // },
     {
-      name: "trafficRange",
-      path: "/trafficRange",
-      element: <HomePage />,
+      name: "sendingTime",
+      path: "/sendingTime",
+      element: <SendingTimeWrapper />,
     },
     {
       name: "weeklyPlan",

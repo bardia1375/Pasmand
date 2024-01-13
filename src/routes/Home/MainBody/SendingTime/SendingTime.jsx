@@ -12,12 +12,12 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
     { id: 3, text: "ساعت 18 تا 21", bg: "#fff" },
   ]);
   const [days, setDays] = useState([
-    { id: 0, text: "یکشنبه", date: "1 بهمن", bg: "#fff" },
-    { id: 1, text: "دوشنبه", date: "2 بهمن", bg: "#fff" },
-    { id: 2, text: "سه‌شنبه", date: "3 بهمن", bg: "#fff" },
-    { id: 3, text: "چهارشنبه", date: "4 بهمن", bg: "#fff" },
-    { id: 4, text: "پنجشنبه", date: "5 بهمن", bg: "#fff" },
-    { id: 5, text: "شنبه", date: "6 بهمن", bg: "#fff" },
+    { id: 0, day: "یکشنبه", date: "1 بهمن", bg: "#fff" },
+    { id: 1, day: "دوشنبه", date: "2 بهمن", bg: "#fff" },
+    { id: 2, day: "سه‌شنبه", date: "3 بهمن", bg: "#fff" },
+    { id: 3, day: "چهارشنبه", date: "4 بهمن", bg: "#fff" },
+    { id: 4, day: "پنجشنبه", date: "5 بهمن", bg: "#fff" },
+    { id: 5, day: "شنبه", date: "6 بهمن", bg: "#fff" },
   ]);
   useEffect(() => {
     const timeAndDateOrder = JSON.parse(
@@ -88,7 +88,7 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
               bg={el.bg}
               style={{ borderBottom: `2px dashed ${el.bg}`, padding: "0 8px" }}
             >
-              <p>{el.text}</p>
+              <p>{el.day}</p>
               <p>{el.date}</p>
             </Days>
           ))}

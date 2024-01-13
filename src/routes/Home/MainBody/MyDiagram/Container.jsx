@@ -124,20 +124,31 @@ export const MyDiagram = () => {
     setDate(date);
     localStorage.setItem("date",date);
   };
-  const timeInformation=JSON.parse(localStorage.getItem("timeAndDateOrder2"))
-  const dateInformation=JSON.parse(localStorage.getItem("timeAndDateOrder"))
+  const timeInformation=JSON.parse(localStorage.getItem("timeInformation"))
+  const dateInformation=JSON.parse(localStorage.getItem("dateInformation"))
  console.log("timeInformation",timeInformation);
  console.log("dateInformation",dateInformation);
+ const mergedArray = dateInformation.map((dateInformationItem, index) => ({
+  ...dateInformationItem,
+  ...timeInformation[index]
+}));
 
+console.log("mergedArray",mergedArray);
   return (
     <div>
       {/* <DateNavHeader getDate={getDate} /> */}
 
       <Card height="calc(100vh - 400px)" margin="24px 0 0 0">
-    {timeInformation&&timeInformation.map((el)=>{
-          return <div>{el.text}</div>
+    {mergedArray&&mergedArray.map((el)=>{
+          return <div>
+            <div>{el.text}</div>
+            <div>{el.day}</div>
+            <div>{el.date}</div>
+
+          </div>
           }
     )}
+
       </Card>
     </div>
   );

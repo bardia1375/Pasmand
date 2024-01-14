@@ -50,10 +50,13 @@ function MapComponent({
   setMapPositions,
   MapPositions,
   setArraysOfMap,
+  centerMap
 }) {
   const mapRef = useRef(null); // Ref to store the map instance
   const x = JSON.parse(localStorage.getItem("users"));
-  const Users = x?.filter((res) => res?.Date == date)[0]?.persons;
+  const arraysOfMap=JSON.parse(localStorage.getItem("arraysOfMap"))
+  
+  const Users = arraysOfMap
   const position = x
     ?.filter((res) => res.Date == date)[0]
     ?.persons.map((el) => el.position);
@@ -244,6 +247,8 @@ function MapComponent({
       );
     }
   }, [MapPositions]);
+
+
   return (
     <MapContainer
       center={coords}
@@ -351,7 +356,7 @@ function MapComponent({
         {Users?.map((el, index) => (
           <Marker
             key={index}
-            position={el.position}
+            position={centerMap?centerMap:el}
             icon={blueDotIcon}
           ></Marker>
         ))}

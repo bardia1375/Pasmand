@@ -3411,7 +3411,7 @@ export const Container = ({setShowMap}) => {
             alt=""
           />
         </Dashboard.DashboardHeader> */}
-        <DateNavHeader getDate={getDate} />
+        {/* <DateNavHeader getDate={getDate} /> */}
 
         {loading || dayShow === null || monthShow === null ? (
           <LoadingSpinner />
@@ -3446,7 +3446,7 @@ export const Container = ({setShowMap}) => {
                 width: "100%",
               }}
             >
-              <MapComponent date={date} setShowMap={setShowMap} />
+              <MapComponent height="40vh" date={date} setShowMap={setShowMap}/>
             </NeumorphicBox>
             <StatusCard
               selectedTitle={selectedTitle}

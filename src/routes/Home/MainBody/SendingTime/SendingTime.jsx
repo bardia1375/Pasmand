@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
+function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime,getAddress }) {
   const [times, setTimes] = useState([
     { id: 0, text: "ساعت 9 تا 12", bg: "#fff" },
     { id: 1, text: "ساعت 12 تا 15", bg: "#fff" },
@@ -53,7 +53,10 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
     });
     console.log("updatedDays", updatedDays);
     setDays(updatedDays);
-      setGetDay((prev) => [...prev, el]);
+    const addAddress=Object.assign(el, getAddress)
+    console.log("2342342342342",addAddress);
+
+      setGetDay((prev) => [...prev, addAddress]);
 
     
   };

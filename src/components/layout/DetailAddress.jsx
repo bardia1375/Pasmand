@@ -89,6 +89,8 @@ function DetailAddress({
       details: state.details,
       addressTitle: state.addressTitle,
       phoneNumber: state.phoneNumber,
+      Latitude:savedLatitude,
+      Longitude:savedLongitude
     };
     setLoading(true);
     // setAddress((prev) => [...prev, stateObj]);

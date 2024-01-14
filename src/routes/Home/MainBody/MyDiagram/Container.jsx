@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import MapComponent from "../Dashboard/MapComponent";
 
 export const MyDiagram = () => {
   // Data for the pie chart
@@ -161,11 +162,19 @@ export const MyDiagram = () => {
       <DateNavHeader getDate={getDate} getSelectedTitle={getSelectedTitle} />
 
       <Card height="calc(100vh - 300px)">
+        
         <Items>
+
           {mergedArray && selected === "جاری"
             ? mergedArray.map((el, index) => {
                 return (
-                  <Item>
+                  <Item>    
+                   <div>   <MapComponent  centerMap={[el.Latitude,el.Longitude]}/></div>
+                   <div>
+                      <span style={{ fontWeight: "bold" }}> آدرس : </span>
+                      {el.Address}
+                    </div>                 
+
                     <div>
                       <span style={{ fontWeight: "bold" }}> کد سفارش: </span>
                       14502

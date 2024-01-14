@@ -70,7 +70,7 @@ const LoginPage = ({ setPage }) => {
       {/* </LoginStyles.Header> */}
       <form onSubmit={submitHandler}>
         <LoginStyles.LoginTitle hasBorder="true">
-          اجازۀ ورود به تیک‌من
+          ورود به نرم افزار
           <LoginStyles.Spacer
             style={{ marginBottom: "20px" }}
             hasBorder="true"

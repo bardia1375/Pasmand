@@ -8,7 +8,13 @@ const center = {
   lng: 51.430122,
 };
 
-export function DraggableMarker({ setShowMap, height, setSearchTerm }) {
+export function DraggableMarker({
+  setShowMap,
+  height,
+  setSearchTerm,
+  MapPositions,
+  getPosition,
+}) {
   const [draggable, setDraggable] = useState(false);
   const [position, setPosition] = useState(center);
   const [address, setAddress] = useState("");
@@ -31,28 +37,49 @@ export function DraggableMarker({ setShowMap, height, setSearchTerm }) {
         const marker = markerRef.current;
         if (marker != null) {
           const newPosition = marker.getLatLng();
-          console.log("newPosition",newPosition);
-          setPosition(newPosition);
+          console.log("newPosition", newPosition);
           setShowMap(2);
           // getAddress(newPosition);
 
           // Save the updated latitude and longitude to localStorage
           const latitude = newPosition.lat;
           const longitude = newPosition.lng;
+          const newLatLong = [latitude, longitude];
+          setPosition(newPosition);
+
           // Save to localStorage
           localStorage.setItem("savedLatitude", latitude);
           localStorage.setItem("savedLongitude", longitude);
-
+          localStorage.setItem("savedLatLong", JSON.stringify(newLatLong));
+          // setMapPositions(latitude, longitude);
+          // Update the state after saving to localStorage
+          // setMapPositions([newLatLong]);
+          getPosition(newLatLong);
           console.log("Latitude and Longitude saved to localStorage");
         }
       },
     }),
-    []
+    [getPosition]
   );
+  const mapPosition = JSON.parse(
+    localStorage.getItem("positionDraggableMarker")
+  );
+
+  useEffect(() => {
+    console.log("bardiabarayemancheaavardi", mapPosition);
+    if (!!mapPosition) {
+      setPosition(mapPosition.length !== 0 ? mapPosition : center);
+    }
+  }, [!!mapPosition ? mapPosition[0] : mapPosition]);
   const toggleDraggable = useCallback(() => {
     setDraggable((d) => !d);
   }, []);
-
+  // const savedLatitude = localStorage.getItem("savedLatitude");
+  // const savedLongitude = localStorage.getItem("savedLongitude");
+  // useEffect(() => {
+  //   setMapPositions((prev) => [...prev, [savedLatitude, savedLongitude]]);
+  // }, [savedLatitude, savedLongitude]);
+  // console.log("45345345343453useEffect", MapPositions);
   const getAddress = async (newPosition) => {
     try {
       const response = await fetch(
@@ -98,8 +125,8 @@ export function DraggableMarker({ setShowMap, height, setSearchTerm }) {
       <Popup minWidth={90}>
         <span onClick={toggleDraggable}>
           {draggable
-            ? "Marker is draggable"
-            : "Click here to make marker draggable"}
+            ? "مارکر قابلیت جابجایی دارد"
+            : "مارکر قابلیت جابجایی دارد"}
         </span>
       </Popup>
     </Marker>

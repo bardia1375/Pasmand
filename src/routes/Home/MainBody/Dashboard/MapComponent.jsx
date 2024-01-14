@@ -21,8 +21,8 @@ import { DraggableMarker } from "./DraggableMarker";
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require("../../../../assets/images/profilephoto/worker.png"),
-  iconUrl: require("../../../../assets/images/profilephoto/worker.png"),
+  iconRetinaUrl: require("../../../../assets/images/map/locationMarker.png"),
+  iconUrl: require("../../../../assets/images/map/locationMarker.png"),
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 const CircularMarker = styled.div`
@@ -38,7 +38,19 @@ const CircularMarker = styled.div`
   }
 `;
 
-function MapComponent({ userLocation, date, height, setShowMap,Search ,detail}) {
+function MapComponent({
+  userLocation,
+  date,
+  height,
+  setShowMap,
+  Search,
+  detail,
+  savedLatitude,
+  savedLongitude,
+  setMapPositions,
+  MapPositions,
+  setArraysOfMap,
+}) {
   const mapRef = useRef(null); // Ref to store the map instance
   const x = JSON.parse(localStorage.getItem("users"));
   const Users = x?.filter((res) => res?.Date == date)[0]?.persons;
@@ -46,7 +58,7 @@ function MapComponent({ userLocation, date, height, setShowMap,Search ,detail}) 
     ?.filter((res) => res.Date == date)[0]
     ?.persons.map((el) => el.position);
   console.log("UsersUsers", Users);
-  console.log("positionposition", position);
+  console.log("mapsavedLatitude", savedLatitude);
   const [positions, setPositions] = useState(position);
   const [positionSearch, setPositionSearch] = useState(
     positions ? positions[0] : [35.739282, 51.429821],
@@ -62,6 +74,7 @@ function MapComponent({ userLocation, date, height, setShowMap,Search ,detail}) 
     [35.745259, 51.457067],
     [35.755259, 51.457067]
   );
+  useEffect(() => {}, []);
   const LocateControl = () => {
     const map = useMap();
 
@@ -101,13 +114,15 @@ function MapComponent({ userLocation, date, height, setShowMap,Search ,detail}) 
   // },[userLocation])
   const customCircularMarkerIcon = new L.divIcon({
     className: "custom-circular-marker",
-    iconSize: [60, 60], // Adjust the width and height of the icon
+    iconSize: [10, 10], // Adjust the width and height of the icon
     iconAnchor: [30, 30], // Center of the icon
   });
   const blueDotIcon = new L.Icon({
-    iconRetinaUrl: require("../../../../assets/images/profilephoto/302321278.jpg"),
-    iconSize: [30, 30],
-    iconAnchor: [10, 10],
+    iconRetinaUrl: require("../../../../assets/images/map/locationMarker.png"),
+    iconUrl: require("../../../../assets/images/map/locationMarker.png"),
+
+    iconSize: [40, 40],
+    iconAnchor: [0, 0],
     popupAnchor: [0, -10],
   });
   // const [userLocation, setUserLocation] = useState(null);
@@ -187,10 +202,51 @@ function MapComponent({ userLocation, date, height, setShowMap,Search ,detail}) 
     // You can do more with the clicked coordinates if needed
     console.log("Clicked on map:", lat, lng);
   };
- console.log("detail",detail);
+  console.log("detail", detail);
+
+  const [bardia, setBardia] = useState([]);
+  const [coords, setCoords] = useState(["20.5937", "78.9629"]);
+  useEffect(() => {
+    setBardia([0, 0]);
+    setCoords([
+      savedLatitude ? savedLatitude : 35.735171,
+      savedLongitude ? savedLongitude : 51.430122,
+    ]);
+  }, [savedLatitude, savedLongitude]);
+  console.log("bardia.length", bardia.length);
+  const positionFunc = () => {
+    return bardia.length > 0 ? [0, 0] : positionSearch;
+  };
+  function SetViewOnClick({ coords }) {
+    const map = useMap();
+    map.setView(coords, map.getZoom());
+
+    return null;
+  }
+  const getPosition = (data) => {
+    console.log("data234234", data);
+    const savedLatLong = JSON.parse(localStorage.getItem("savedLatLong"));
+    setMapPositions(data);
+    // setArraysOfMap((prev) => [...prev, data]);
+  };
+  // useEffect(() => {
+  //   setMapPositions((prev)=>[...prev,[savedLatitude, savedLongitude]]);
+  // }, [savedLatitude,savedLongitude]);
+  // console.log("45345345343453useEffect", MapPositions);
+  // useEffect to log MapPositions after it has been updated
+
+  useEffect(() => {
+    console.log("45345345343453getPosition", MapPositions);
+    if (!!MapPositions) {
+      localStorage.setItem(
+        "positionDraggableMarker",
+        JSON.stringify(MapPositions)
+      );
+    }
+  }, [MapPositions]);
   return (
     <MapContainer
-      center={positionSearch}
+      center={coords}
       zoom={userLocation ? 15 : 13}
       style={{
         height: ` ${height ? height : "30vh"}`,
@@ -202,53 +258,57 @@ function MapComponent({ userLocation, date, height, setShowMap,Search ,detail}) 
       }} // Callback to store map instance
       onClick={(e) => handleMapClick(e)} // Attach the click event handler
     >
+      <SetViewOnClick coords={coords} />
+
       <div
         style={{
           position: "absolute",
           top: "8px",
           zIndex: "1000",
           right: "16px",
-          left:"32px"
+          left: "32px",
         }}
       >
- { Search&&      <div style={{ position: "relative" }}>
-          <input
-            type="text"
-            placeholder="جستجو موقعیت مکانی"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            style={{
-              borderRadius: "16px 16px 0 0",
-              borderBottom: "1px solid #dadce0",
-              boxShadow: "0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%)",
-              background: "#fff",
-              border: "none",
-              width: "100%",
-              minWidth: "160px",
-              // maxWidth: "150px",
-              height: "28px",
-              outline: "none",
-              padding: "8px",
-            }}
-            onKeyDown={handleKeyDown}
-          />
-          <img
-            onClick={handleSearchSubmit}
-            style={{
-              position: "absolute",
-              width: "24px",
-              height: "24px",
-              left: "10px",
-              top: "10px",
-              cursor: "pointer",
-            }}
-            src={SearchImg}
-            alt="Search"
-          />
-        </div>}
+        {Search && (
+          <div style={{ position: "relative" }}>
+            <input
+              type="text"
+              placeholder="جستجو موقعیت مکانی"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              style={{
+                borderRadius: "16px 16px 0 0",
+                borderBottom: "1px solid #dadce0",
+                boxShadow: "0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%)",
+                background: "#fff",
+                border: "none",
+                width: "100%",
+                minWidth: "160px",
+                // maxWidth: "150px",
+                height: "28px",
+                outline: "none",
+                padding: "8px",
+              }}
+              onKeyDown={handleKeyDown}
+            />
+            <img
+              onClick={handleSearchSubmit}
+              style={{
+                position: "absolute",
+                width: "24px",
+                height: "24px",
+                left: "10px",
+                top: "10px",
+                cursor: "pointer",
+              }}
+              src={SearchImg}
+              alt="Search"
+            />
+          </div>
+        )}
         {/* <button onClick={this.handleSearchSubmit}>Search</button> */}
       </div>
-      <Polyline pathOptions={limeOptions} positions={polyline} />
+      {/* <Polyline pathOptions={limeOptions} positions={polyline} /> */}
 
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -269,7 +329,12 @@ function MapComponent({ userLocation, date, height, setShowMap,Search ,detail}) 
           </Popup>
         </Marker>
       ))} */}
-      <DraggableMarker setShowMap={setShowMap} setSearchTerm={setSearchTerm}/>
+      <DraggableMarker
+        getPosition={getPosition}
+        setMapPositions={setMapPositions}
+        setShowMap={setShowMap}
+        setSearchTerm={setSearchTerm}
+      />
 
       {userLocation && (
         <Marker position={userLocation} icon={blueDotIcon}>
@@ -284,18 +349,11 @@ function MapComponent({ userLocation, date, height, setShowMap,Search ,detail}) 
       )}
       <MarkerClusterGroup>
         {Users?.map((el, index) => (
-          <Marker key={index} position={el.position}>
-            <StyledPopup state={el.State}>
-              <div style={{ textAlign: "center" }}>
-                {/* <CircularMarker>
-                  <img src={require(el.ImgUrl)} alt={`Point ${index + 1}`} />
-                </CircularMarker> */}
-                <div>{el.name}</div>
-                <div>کدپرسنلی:{el.Code}</div>
-                <div>{el.State}</div>
-              </div>
-            </StyledPopup>
-          </Marker>
+          <Marker
+            key={index}
+            position={el.position}
+            icon={blueDotIcon}
+          ></Marker>
         ))}
       </MarkerClusterGroup>
       <LocateControl />

@@ -46,14 +46,31 @@ const reducerMethod = (state, action) => {
       return state;
   }
 };
-function DetailAddress({ setShowMap, setAddress, Address ,showMap,getAddress}) {
+function DetailAddress({
+  setShowMap,
+  setAddress,
+  Address,
+  showMap,
+  getAddress,
+  MapPositions,
+  setMapPositions,
+  setArraysOfMap
+}) {
   const savedLatitude = localStorage.getItem("savedLatitude");
   const savedLongitude = localStorage.getItem("savedLongitude");
+  console.log("savedLatitude1", savedLatitude, savedLongitude);
+
+  useEffect(() => {
+    console.log("savedLatitude2", savedLatitude, savedLongitude);
+  }, [savedLatitude, savedLongitude]);
   const [detail, setDetail] = useState([]);
 
   const [state, dispatch] = useReducer(reducerMethod, initialValue);
-  const [loading,setLoading]=useState(false)
-
+  const [loading, setLoading] = useState(false);
+  // useEffect to log MapPositions after it has been updated
+  const mapPosition = JSON.parse(
+    localStorage.getItem("positionDraggableMarker")
+  );
   // useEffect(()=>{
   //   localStorage.setItem(
   //     "savedAddress",
@@ -61,9 +78,11 @@ function DetailAddress({ setShowMap, setAddress, Address ,showMap,getAddress}) {
   // console.log("AddressAddress",Address);
   // },[loading])
 
- const onSubmit = () => {
+  const onSubmit = () => {
     console.log("initialValue", state);
-
+    console.log("mapPositionmapPositionmapPosition123", MapPositions);
+    // setMapPositions((prev) => [...prev, mapPosition]);
+    setArraysOfMap((prev) => [...prev, mapPosition]);
     // Save the state object to localStorage as a JSON string
     const stateObj = {
       Address: state.Address,
@@ -71,16 +90,13 @@ function DetailAddress({ setShowMap, setAddress, Address ,showMap,getAddress}) {
       addressTitle: state.addressTitle,
       phoneNumber: state.phoneNumber,
     };
-    setLoading(true)
+    setLoading(true);
     // setAddress((prev) => [...prev, stateObj]);
-    getAddress(stateObj)
-  //   localStorage.setItem(
-  //     "savedAddress",
-  //  JSON.stringify(Address))
-
-  console.log("AddressAddress",Address);
-
-    
+    getAddress(stateObj);
+    //   localStorage.setItem(
+    //     "savedAddress",
+    //  JSON.stringify(Address))
+    console.log("AddressAddress", Address);
 
     // localStorage.setItem("savedAddress", JSON.stringify(stateObj));
     setShowMap(0);
@@ -93,6 +109,11 @@ function DetailAddress({ setShowMap, setAddress, Address ,showMap,getAddress}) {
       payload: { Location: [savedLatitude, savedLongitude] },
     });
   }, [savedLatitude, savedLongitude]);
+  console.log("MapPositionsMapPositionsMapPositions", MapPositions);
+
+  useEffect(() => {
+    console.log("MapPositionsMapPositionsMapPositions", MapPositions);
+  }, [mapPosition[0]]);
   return (
     <div
       style={{
@@ -113,7 +134,15 @@ function DetailAddress({ setShowMap, setAddress, Address ,showMap,getAddress}) {
           overflow: "hidden",
         }}
       >
-        <MapComponent Search={false} setShowMap={setShowMap} detail={detail} />
+        <MapComponent
+          MapPositions={MapPositions}
+          setMapPositions={setMapPositions}
+          Search={false}
+          setShowMap={setShowMap}
+          detail={detail}
+          savedLongitude={savedLongitude}
+          savedLatitude={savedLatitude}
+        />
         <Button
           radius="0"
           display="flex"

@@ -155,7 +155,7 @@ export const Footer = () => {
         </FooterStyles.HomeBody>
         {/* </ButtonAction> */}
 
-        <Circle
+        {/* <Circle
           Timer={Timer}
           onClick={
             loadingCheck
@@ -170,7 +170,7 @@ export const Footer = () => {
           ) : (
             <h3 style={{ color: "white" }}>شروع</h3>
           )}
-        </Circle>
+        </Circle> */}
         {/* <FooterStyles.Footericon src={Telegram} alt="Telegram" /> */}
         <FooterStyles.MessagesBody
           onClick={

@@ -35,7 +35,7 @@ export const MyClocking = () => {
   const [page, setPage] = useState(0);
 
   const info = JSON.parse(localStorage.getItem("users"));
-  
+
   const [trafficModal, setTrafficModal] = useState(true);
   const [loadingCheck, setLoadingCheck] = useState(false);
   const [locations, setLocations] = useState({});
@@ -182,7 +182,8 @@ export const MyClocking = () => {
   //         });
   //     }
   //   }
-  // };
+  // };    
+
   return (
     <div
       style={{
@@ -212,32 +213,6 @@ export const MyClocking = () => {
       )}
       <Card height="calc(100vh - 250px)" margin="24px 0 0 0">
         <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-          {true && (
-            <img
-              src={takeImage}
-              alt="Captured Preview"
-              style={{ width: "100%", marginTop: "10px" }}
-            />
-          )}
-          {loading ? (
-            <LoadingSpinner />
-          ) : (
-            <Card color="orange">
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "24px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div>عکس گرفته شده مطابقت دارد با:</div>
-                <div>کاربر: سید بردیا شمسی</div>
-                <div>با شماره پرسنلی: 440</div>
-              </div>
-            </Card>
-          )}
         </div>
       </Card>
     </div>

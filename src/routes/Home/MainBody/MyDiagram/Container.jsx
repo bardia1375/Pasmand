@@ -1,9 +1,10 @@
 import DateNavHeader from "components/DateNavHeader/DateNavHeader";
 import Card from "components/common/Card";
 import moment from "moment-jalaali";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 export const MyDiagram = () => {
   // Data for the pie chart
@@ -122,34 +123,98 @@ export const MyDiagram = () => {
   const getDate = (date) => {
     console.log("date", date);
     setDate(date);
-    localStorage.setItem("date",date);
+    localStorage.setItem("date", date);
   };
-  const timeInformation=JSON.parse(localStorage.getItem("timeInformation"))
-  const dateInformation=JSON.parse(localStorage.getItem("dateInformation"))
- console.log("timeInformation",timeInformation);
- console.log("dateInformation",dateInformation);
- const mergedArray = dateInformation.map((dateInformationItem, index) => ({
-  ...dateInformationItem,
-  ...timeInformation[index]
-}));
+  const timeInformation = JSON.parse(localStorage.getItem("timeInformation"));
+  const dateInformation = JSON.parse(localStorage.getItem("dateInformation"));
+  console.log("timeInformation", timeInformation);
+  console.log("dateInformation", dateInformation);
+  const mergedArray = dateInformation?.map((dateInformationItem, index) => ({
+    ...dateInformationItem,
+    ...timeInformation[index],
+  }));
+  const orderInformation = [
+    {
+      id: 1,
+      day: "چهارشنبه",
+      date: "4 بهمن",
+      bg: "#fff",
+      text: "ساعت 12 تا 15",
+    },
+    {
+      id: 1,
+      day: "سه‌شنبه",
+      date: "3 بهمن",
+      bg: "#fff",
+      text: "ساعت 12 تا 15",
+    },
+  ];
 
-console.log("mergedArray",mergedArray);
+  console.log("orderInformation", orderInformation);
+  const [selected, setselected] = useState("جاری");
+
+  const getSelectedTitle = (data) => {
+    setselected(data);
+  };
   return (
-    <div>
-      {/* <DateNavHeader getDate={getDate} /> */}
+    <div style={{ marginTop: "32px" }}>
+      <DateNavHeader getDate={getDate} getSelectedTitle={getSelectedTitle} />
 
-      <Card height="calc(100vh - 400px)" margin="24px 0 0 0">
-    {mergedArray&&mergedArray.map((el)=>{
-          return <div>
-            <div>{el.text}</div>
-            <div>{el.day}</div>
-            <div>{el.date}</div>
+      <Card height="calc(100vh - 300px)">
+        <Items>
+          {mergedArray && selected === "جاری"
+            ? mergedArray.map((el, index) => {
+                return (
+                  <Item>
+                    <div>
+                      <span style={{ fontWeight: "bold" }}> کد سفارش: </span>
+                      14502
+                    </div>
+                    <div>
+                      <span style={{ fontWeight: "bold" }}> تاریخ: </span>{" "}
+                      {el.date} 1402
+                    </div>
+                    <div>
+                      <span style={{ fontWeight: "bold" }}> زمان: </span> 
+                      {`${el.day} ${el.text}`}
+                    </div>
 
-          </div>
-          }
-    )}
+                  </Item>
+                );
+              })
+            : orderInformation.map((el, index) => {
+                return (
+                  <Item>
+                    <div>کد سفارش: 11273</div>
+                    <div>{el.date} 1402</div>
 
+                    <div>
+                      {`
+                  زمان: ${el.day}  ${el.text}
+                `}
+                    </div>
+                  </Item>
+                );
+              })}
+        </Items>
       </Card>
     </div>
   );
 };
+export const Items = styled.div`
+  border-radius: 8px;
+  gap: 16px;
+`;
+export const Item = styled.div`
+  border-radius: 8px;
+  margin-top: 8px;
+  gap: 16px;
+  border: 2px solid gray;
+  padding: 4px 8px;
+  white-space: noWrap;
+  overflow: hidden;
+  // font-size: 2vh;
+  div {
+    display: flex;
+  }
+`;

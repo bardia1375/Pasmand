@@ -2,6 +2,7 @@ import { Button } from "components/common";
 import Card from "components/common/Card";
 import { Field } from "components/common/Field";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
@@ -45,7 +46,7 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
     const updatedDays = days.map((day, i) => {
       console.log("123123", index);
       if (i === index) {
-        return { ...day, bg: "lightgreen" }; // Set the background to red for the selected item
+        return { ...day, bg: "red" }; // Set the background to red for the selected item
       } else {
         return { ...day, bg: "#fff" }; // Set the background to white for other items
       }
@@ -56,9 +57,10 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
 
     
   };
+  const navigate = useNavigate()
   const onSubmit = () => {
     console.log();
-    setShowMap(0);
+    navigate("/order")
     localStorage.setItem("dateInformation", JSON.stringify(getDay));
     localStorage.setItem("timeInformation", JSON.stringify(getTime));
     // const data = [...getDay, ...getTime];
@@ -86,7 +88,7 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime }) {
             <Days
               onClick={() => selectDays(el, el.id)}
               bg={el.bg}
-              style={{ borderBottom: `2px dashed ${el.bg}`, padding: "0 8px" }}
+              style={{ borderBottom: `4px dashed ${el.bg}`, padding: "0 8px" }}
             >
               <p>{el.day}</p>
               <p>{el.date}</p>

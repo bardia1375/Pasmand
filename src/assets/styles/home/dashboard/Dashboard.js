@@ -33,7 +33,7 @@ export const DashboardBody = styled.div`
 export const TitleStyle = styled.div`
   color: ${({ selected }) => (selected ? "white" : "#37b3b8")};
   background-color: ${({ selected }) => (selected ? "#37b3b8" : "none")};
-  padding: ${({ selected }) => (selected ? "10px 40px" : "10px")};
+  padding: ${({ selected }) => (selected ? "1vh 40px" : "1vh")};
   border-radius: 30px;
   font-size: 2vh;
   font-weight: 400;
@@ -57,13 +57,13 @@ export const DashboardHeader = styled.div`
 
 export const StatusTypes = styled.div`
   background-color: #ecfcfc;
-  border-radius: 30px;
+  border-radius: 16px;
   padding: 20px 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 export const Status = styled.div`

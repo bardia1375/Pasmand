@@ -175,7 +175,7 @@ function StatusCard({
             { title: "ثبت آدرس", Url: "/clocking" },
             { title: "زمان ارسال", Url: "/sendingTime" },
             { title: "سفارش ها", Url: "/order" },
-            { title: "برنامه هفتگی", Url: "/weeklyPlan" },
+            // { title: "برنامه هفتگی", Url: "/weeklyPlan" },
           ].map((item, index) => (
             <Dashboard.StatusItem
               key={index}

@@ -10,7 +10,7 @@ import Calendar from "components/common/classes/Calendar";
 // Header title for decreasing size of bundle
 let dayLimit = 60;
 let monthLimit = 12;
-const DateNavHeader = ({ getDate }) => {
+const DateNavHeader = ({ getDate, getSelectedTitle }) => {
   // States && Hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const DateNavHeader = ({ getDate }) => {
     (state) => state.dashboard
   );
   const today = new Date();
-  const [selectedTitle, setSelectedTitle] = useState("امروز");
+  const [selectedTitle, setSelectedTitle] = useState("جاری");
   const [collapse, setCollapse] = useState(false);
   const [datePicker, setDatePicker] = useState(false);
   const [dayShow, setDayShow] = useState(null);
@@ -101,12 +101,14 @@ const DateNavHeader = ({ getDate }) => {
   // Header title for decreasing size of bundle
   const HeaderTitle = () => {
     // return ["امروز", "این ماه"].map((item, index) => (
-    return ["امروز"].map((item, index) => (
+    return ["جاری", "تکمیل شده"].map((item, index) => (
       <Dashboard.TitleStyle
         key={index}
         style={{ cursor: "pointer" }}
         onClick={() => {
           if (selectedTitle !== item) {
+            localStorage.setItem("selectedTitle", item);
+            getSelectedTitle(item);
             setDayShow(null);
             setMonthShow(null);
             setSelectedTitle(item);
@@ -122,7 +124,7 @@ const DateNavHeader = ({ getDate }) => {
         }}
         selected={selectedTitle === item}
       >
-        {item === "امروز" ? "روز" : "ماه"}
+        {item === "جاری" ? "جاری" : "تکمیل شده"}
       </Dashboard.TitleStyle>
     ));
   };
@@ -169,7 +171,7 @@ const DateNavHeader = ({ getDate }) => {
           monthLimit={monthLimit}
         />
       </Dashboard.DashboardHeader>
-      <Dashboard.DashboardHeader>
+      {/* <Dashboard.DashboardHeader>
         <img
           onClick={dayLimit !== 0 && monthLimit !== 0 ? decreaseDate : null}
           style={{
@@ -221,7 +223,7 @@ const DateNavHeader = ({ getDate }) => {
           src={PrimaryArrow}
           alt=""
         />
-      </Dashboard.DashboardHeader>
+      </Dashboard.DashboardHeader> */}
     </>
   );
 };

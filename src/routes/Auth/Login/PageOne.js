@@ -31,10 +31,10 @@ const PageOne = ({ page, setPage }) => {
       </LoginStyles.PageOneImage>
       <LoginStyles.PageOneDetail>
         <div style={{ color: "#e67205", fontSize: "9vh", fontWeight: "400" }}>
-          تیک‌من
+          نرم افزار مدیریت
         </div>
-        <div style={{ color: "#183573", fontSize: "7vh", fontWeight: "300" }}>
-          دستیار من
+        <div style={{ color: "#e67205", fontSize: "7vh", fontWeight: "300" }}>
+          پسماند
         </div>
       </LoginStyles.PageOneDetail>
     </LoginStyles.PageOneBody>

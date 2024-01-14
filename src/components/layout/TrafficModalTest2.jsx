@@ -377,39 +377,42 @@ export const TrafficModalTest2 = ({
   // } else {
   //   console.log("No saved state found in localStorage");
   // }
-  const [Address,setAddress]=useState([])
+  const [Address, setAddress] = useState([]);
   const [showMap, setShowMap] = useState(false);
- 
-  const savedAddress=JSON.parse(localStorage.getItem("savedAddress"))
-  useEffect(()=>{
-    setAddress(savedAddress?savedAddress:[])
+
+  const savedAddress = JSON.parse(localStorage.getItem("savedAddress"));
+  useEffect(() => {
+    setAddress(savedAddress ? savedAddress : []);
     console.log("salam");
-  },[])
-
-
-
-
+  }, []);
 
   const openMap = () => {
     setShowMap(1);
   };
-  const getAddress=(data)=>{
-         console.log("data",data);
-         setAddress((prev) => [...prev, data]);
-      //    localStorage.setItem(
-      //     "savedAddress",
-      //  JSON.stringify(Address))
-  }   
-  useEffect(()=>{
-    localStorage.setItem(
-          "savedAddress",
-       JSON.stringify(Address))
-  },[Address.length]) 
-     console.log("Address123",Address);
-
+  const getAddress = (data) => {
+    console.log("data", data);
+    setAddress((prev) => [...prev, data]);
+    //    localStorage.setItem(
+    //     "savedAddress",
+    //  JSON.stringify(Address))
+  };
+  useEffect(() => {
+    localStorage.setItem("savedAddress", JSON.stringify(Address));
+  }, [Address.length]);
+  console.log("Address123", Address);
 
   const savedLatitude = localStorage.getItem("savedLatitude");
   const savedLongitude = localStorage.getItem("savedLongitude");
+  console.log("savedLatitude1", savedLatitude, savedLongitude);
+
+  useEffect(() => {
+    console.log("savedLatitude2", savedLatitude, savedLongitude);
+  }, [savedLatitude, savedLongitude]);
+  const [MapPositions, setMapPositions] = useState([]);
+  const [arraysOfMap, setArraysOfMap] = useState([]);
+  useEffect(() => {
+    localStorage.setItem("arraysOfMap", JSON.stringify(arraysOfMap));
+  }, [arraysOfMap.length]);
   return (
     <>
       <Overlay
@@ -429,9 +432,12 @@ export const TrafficModalTest2 = ({
         <Card color={"#f1f1f1"}>
           {showMap == 1 && (
             <MapComponent
+              MapPositions={MapPositions}
+              setMapPositions={setMapPositions}
               height="100%"
               setShowMap={setShowMap}
               savedLongitude={savedLongitude}
+              setArraysOfMap={setArraysOfMap}
               savedLatitude={savedLatitude}
             />
           )}
@@ -451,6 +457,9 @@ export const TrafficModalTest2 = ({
                 savedLatitude={savedLatitude}
                 showMap={showMap}
                 getAddress={getAddress}
+                MapPositions={MapPositions}
+                setArraysOfMap={setArraysOfMap}
+                setMapPositions={setMapPositions}
               />
             </div>
           )}

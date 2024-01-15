@@ -3,9 +3,17 @@ import Card from "components/common/Card";
 import { Field } from "components/common/Field";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 
-function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime,getAddress }) {
+function SendingTime({
+  setGetTime,
+  setGetDay,
+  setShowMap,
+  getDay,
+  getTime,
+  getAddress,
+}) {
   const [times, setTimes] = useState([
     { id: 0, text: "ساعت 9 تا 12", bg: "#fff" },
     { id: 1, text: "ساعت 12 تا 15", bg: "#fff" },
@@ -26,7 +34,10 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime,getAdd
     );
     console.log("timeAndDateOrder", timeAndDateOrder);
   }, []);
+  const [dayRequere, setDayRequere] = useState(false);
+  const [timeRequere, setTimeRequere] = useState(false);
   const selectItem = (el, index) => {
+    setTimeRequere(true);
     const updatedTimes = times.map((time, i) => {
       console.log(i, index);
       if (i === index) {
@@ -37,12 +48,11 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime,getAdd
     });
     console.log("updatedDays", updatedTimes);
     setTimes(updatedTimes);
-      setGetTime((prev) => [...prev, el]);
-
-    
+    setGetTime((prev) => [...prev, el]);
   };
-  
+
   const selectDays = (el, index) => {
+    setDayRequere(true);
     const updatedDays = days.map((day, i) => {
       console.log("123123", index);
       if (i === index) {
@@ -53,19 +63,27 @@ function SendingTime({ setGetTime, setGetDay, setShowMap, getDay, getTime,getAdd
     });
     console.log("updatedDays", updatedDays);
     setDays(updatedDays);
-    const addAddress=Object.assign(el, getAddress)
-    console.log("2342342342342",addAddress);
+    const addAddress = Object.assign(el, getAddress);
+    console.log("2342342342342", addAddress);
 
-      setGetDay((prev) => [...prev, addAddress]);
-
-    
+    setGetDay((prev) => [...prev, addAddress]);
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onSubmit = () => {
     console.log();
-    navigate("/order")
-    localStorage.setItem("dateInformation", JSON.stringify(getDay));
-    localStorage.setItem("timeInformation", JSON.stringify(getTime));
+    if (timeRequere && dayRequere) {
+      navigate("/order");
+      toast.success("سفارش شما با موفقیت ثیت شد");
+      localStorage.setItem("dateInformation", JSON.stringify(getDay));
+      localStorage.setItem("timeInformation", JSON.stringify(getTime));
+    } else if (timeRequere) {
+      toast.error("لطفا روز ارسال را مشخص نمایید");
+    } else if (dayRequere) {
+      toast.error("لطفا ساعت  مدنظر خود را مشخص نمایید");
+    } else {
+      toast.error("لطفا روز و ساعت مدنظر خود را  مشخص نمایید");
+    }
+
     // const data = [...getDay, ...getTime];
     // console.log("data", data);
     // localStorage.setItem("timeAndDateOrder", JSON.stringify(data));

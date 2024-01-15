@@ -214,10 +214,10 @@ export const Menu = ({ setOpenModal, openModal }) => {
             <Item onClick={() => clickHandler("/sendingTime")}>
               <img width={25} src={MyTraffic} alt={"MyTraffic"} /> زمان ارسال
             </Item>
-            <Item onClick={() => clickHandler("/weeklyPlan")}>
+            {/* <Item onClick={() => clickHandler("/weeklyPlan")}>
               <img width={25} src={MyTraffic} alt={"MyTraffic"} />
               برنامه هفتگی
-            </Item>
+            </Item> */}
             <Item onClick={() => clickHandler("/diagram")}>
               <img width={25} src={WorkReport} alt={"WorkReport"} />
               سفارش ها

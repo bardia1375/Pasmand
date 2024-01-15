@@ -50,13 +50,13 @@ function MapComponent({
   setMapPositions,
   MapPositions,
   setArraysOfMap,
-  centerMap
+  centerMap,
 }) {
   const mapRef = useRef(null); // Ref to store the map instance
   const x = JSON.parse(localStorage.getItem("users"));
-  const arraysOfMap=JSON.parse(localStorage.getItem("arraysOfMap"))
-  
-  const Users = arraysOfMap
+  const arraysOfMap = JSON.parse(localStorage.getItem("arraysOfMap"));
+
+  const Users = arraysOfMap;
   const position = x
     ?.filter((res) => res.Date == date)[0]
     ?.persons.map((el) => el.position);
@@ -247,11 +247,21 @@ function MapComponent({
       );
     }
   }, [MapPositions]);
+  const handleMapDoubleClick = (e) => {
+    const { lat, lng } = e.latlng;
 
+    // Create a new marker at the double-clicked location
+    const newMarker = { lat, lng };
 
+    // Update the state or perform any other necessary actions
+    // For example, you can add the new marker to your list of markers
+    setMapPositions((prevPositions) => [...prevPositions, newMarker]);
+  };
   return (
     <MapContainer
       center={coords}
+      doubleClickZoom={false} // Disable default double-click zoom
+      ondblclick={handleMapDoubleClick} // Handle double-click event  
       zoom={userLocation ? 15 : 13}
       style={{
         height: ` ${height ? height : "30vh"}`,
@@ -263,7 +273,7 @@ function MapComponent({
       }} // Callback to store map instance
       onClick={(e) => handleMapClick(e)} // Attach the click event handler
     >
-      <SetViewOnClick coords={coords} />
+      <SetViewOnClick coords={centerMap ? centerMap : coords} />
 
       <div
         style={{
@@ -334,12 +344,14 @@ function MapComponent({
           </Popup>
         </Marker>
       ))} */}
-      <DraggableMarker
-        getPosition={getPosition}
-        setMapPositions={setMapPositions}
-        setShowMap={setShowMap}
-        setSearchTerm={setSearchTerm}
-      />
+      {!centerMap && (
+        <DraggableMarker
+          getPosition={getPosition}
+          setMapPositions={setMapPositions}
+          setShowMap={setShowMap}
+          setSearchTerm={setSearchTerm}
+        />
+      )}
 
       {userLocation && (
         <Marker position={userLocation} icon={blueDotIcon}>
@@ -352,15 +364,17 @@ function MapComponent({
           </Popup>
         </Marker>
       )}
-      <MarkerClusterGroup>
-        {Users?.map((el, index) => (
-          <Marker
-            key={index}
-            position={centerMap?centerMap:el}
-            icon={blueDotIcon}
-          ></Marker>
-        ))}
-      </MarkerClusterGroup>
+      {!centerMap ? (
+        <MarkerClusterGroup>
+          {Users?.map((el, index) => (
+            <Marker key={index} position={el} icon={blueDotIcon}></Marker>
+          ))}
+        </MarkerClusterGroup>
+      ) : (
+        <MarkerClusterGroup>
+          <Marker position={centerMap}></Marker>
+        </MarkerClusterGroup>
+      )}
       <LocateControl />
     </MapContainer>
   );

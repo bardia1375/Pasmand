@@ -82,6 +82,7 @@ function DetailAddress({
     console.log("initialValue", state);
     console.log("mapPositionmapPositionmapPosition123", MapPositions);
     // setMapPositions((prev) => [...prev, mapPosition]);
+
     setArraysOfMap((prev) => [...prev, mapPosition]);
     // Save the state object to localStorage as a JSON string
     const stateObj = {

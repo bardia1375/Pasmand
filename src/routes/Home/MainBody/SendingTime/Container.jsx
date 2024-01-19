@@ -80,14 +80,14 @@ export const SendingTimeWrapper = () => {
                 + آدرس جدید
               </div>
             </TitleCard>
-            {Address?.map((el, index) => (
+            {Address.length!==0?Address?.map((el, index) => (
               <AddressCard onClick={() => openTime(el)}>
                 <div>عنوان: {el?.addressTitle}</div>
                 <div>{el?.Address}</div>
                 <div>{el?.details}</div>
                 <div>شماره تماس: {el?.phoneNumber}</div>
               </AddressCard>
-            ))}
+            )):<div style={{textAlign:"center",margin:"8px 0", color:"gray"}}>آدرسی جهت نمایش ندارد!</div>}
           </>
         )}
       </Card>

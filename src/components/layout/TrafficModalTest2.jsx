@@ -411,12 +411,14 @@ export const TrafficModalTest2 = ({
   const [MapPositions, setMapPositions] = useState([]);
   const [arraysOfMap, setArraysOfMap] = useState([]);
   useEffect(() => {
+    localStorage.setItem("arraysOfMap", JSON.stringify(arraysOfMap));
+  }, [arraysOfMap?.length]);
+  useEffect(() => {
     const newposition=JSON.parse(localStorage.getItem("arraysOfMap"));
+    console.log("newpositionnewposition",newposition);
     setArraysOfMap(newposition)
   }, []);
-  useEffect(() => {
-    localStorage.setItem("arraysOfMap", JSON.stringify(arraysOfMap));
-  }, [arraysOfMap.length]);
+
   return (
     <>
       <Overlay

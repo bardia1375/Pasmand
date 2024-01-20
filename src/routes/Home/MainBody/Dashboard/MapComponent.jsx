@@ -6,6 +6,7 @@ import {
   Popup,
   useMap,
   Polyline,
+  useMapEvents,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -267,6 +268,21 @@ function MapComponent({
     // For example, you can add the new marker to your list of markers
     setMapPositions((prevPositions) => [...prevPositions, newMarker]);
   };
+  const [markerPosition, setMarkerPosition] = useState(null);
+
+  const AddMarkerToClickLocation = () => {
+    const map = useMapEvents({
+      click: (e) => {
+        setMarkerPosition(e.latlng);
+      },
+    });
+
+    return markerPosition ? (
+      <Marker position={markerPosition}>
+        <Popup>Marker at {markerPosition.lat}, {markerPosition.lng}</Popup>
+      </Marker>
+    ) : null;
+  };
 
   return (
     <MapContainer
@@ -388,6 +404,7 @@ function MapComponent({
         </MarkerClusterGroup>
       )}
       <LocateControl />
+      <AddMarkerToClickLocation />
     </MapContainer>
   );
 }

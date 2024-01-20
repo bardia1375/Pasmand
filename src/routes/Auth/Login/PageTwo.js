@@ -38,9 +38,8 @@ const PageTwo = ({ setPage }) => {
               gap: "10px",
             }}
           >
-            <img width={20} src={Tik} alt="Tik" />
-            ثبت تردد
-          </div>
+
+
           <div
             style={{
               color: "#183573",
@@ -52,34 +51,9 @@ const PageTwo = ({ setPage }) => {
             }}
           >
             <img width={20} src={Tik} alt="Tik" />
-            مدیریت کارها و برنامه‌ها
+             درخواست جمع اوری پسماند
           </div>
-          <div
-            style={{
-              color: "#183573",
-              fontSize: "3vh",
-              fontWeight: "600",
-              padding: "5px",
-              display: "flex",
-              gap: "10px",
-            }}
-          >
-            <img width={20} src={Tik} alt="Tik" />
-            محاسبۀ حقوق و مزایا
-          </div>
-          <div
-            style={{
-              color: "#183573",
-              fontSize: "3vh",
-              fontWeight: "600",
-              padding: "5px",
-              display: "flex",
-              gap: "10px",
-            }}
-          >
-            <img width={20} src={Tik} alt="Tik" />
-            ثبت مرخصی و مأموریت
-          </div>
+
         </div>
       </LoginStyles.PageTwoList>
       <LoginStyles.PageOneImage>

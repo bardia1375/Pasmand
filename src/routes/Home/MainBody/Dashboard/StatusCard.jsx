@@ -173,7 +173,7 @@ function StatusCard({
         <Dashboard.StatusList>
           {[
             { title: "ثبت آدرس", Url: "/clocking" },
-            { title: "زمان ارسال", Url: "/sendingTime" },
+            { title: "درخواست جمع آوری", Url: "/sendingTime" },
             { title: "سفارش ها", Url: "/order" },
             // { title: "برنامه هفتگی", Url: "/weeklyPlan" },
           ].map((item, index) => (
@@ -199,7 +199,7 @@ function StatusCard({
                   src={
                     item.title === "ثبت آدرس"
                       ? SelectedLeave
-                      : item.title === "زمان ارسال"
+                      : item.title === "درخواست جمع آوری"
                       ? SelectedMission
                       : SelectedWorkout
                   }
@@ -214,7 +214,7 @@ function StatusCard({
                   src={
                     item.title === "ثبت آدرس"
                       ? Leave
-                      : item.title === "زمان ارسال"
+                      : item.title === "درخواست جمع آوری"
                       ? Mission
                       : item.title === "سفارش ها"
                       ? piechart

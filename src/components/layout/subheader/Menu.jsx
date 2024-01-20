@@ -212,7 +212,7 @@ export const Menu = ({ setOpenModal, openModal }) => {
               <img width={25} src={MyTraffic} alt={"MyTraffic"} /> ثبت آدرس
             </Item>
             <Item onClick={() => clickHandler("/sendingTime")}>
-              <img width={25} src={MyTraffic} alt={"MyTraffic"} /> زمان ارسال
+              <img width={25} src={MyTraffic} alt={"MyTraffic"} /> درخواست جمع آوری
             </Item>
             {/* <Item onClick={() => clickHandler("/weeklyPlan")}>
               <img width={25} src={MyTraffic} alt={"MyTraffic"} />

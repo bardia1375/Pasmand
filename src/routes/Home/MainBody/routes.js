@@ -32,7 +32,7 @@ const routes = {
     {
       name: "traffics",
       path: "/",
-      element: <MyTraffics />,
+      element: <MyProfile />,
     },
 
     // {

@@ -18,7 +18,8 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import { DraggableMarker } from "./DraggableMarker";
-
+import {useLocation}from "react-router-dom"
+import ClickMarker from "./ClickMarker";
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -54,9 +55,11 @@ function MapComponent({
   centerMap,
 }) {
   const mapRef = useRef(null); // Ref to store the map instance
+  const markerRef = useRef(null); // Ref to store the map instance
+
   const x = JSON.parse(localStorage.getItem("users"));
   const arraysOfMap = JSON.parse(localStorage.getItem("arraysOfMap"));
-
+ const location=useLocation()
   const Users = arraysOfMap;
   const position = x
     ?.filter((res) => res.Date == date)[0]
@@ -248,48 +251,15 @@ function MapComponent({
       );
     }
   }, [MapPositions]);
-  const handleMapDoubleClick = (e) => {
-    const { lat, lng } = e.latlng;
 
-    // Create a new marker at the double-clicked location
-    const newMarker = { lat, lng };
-
-    // Update the state or perform any other necessary actions
-    // For example, you can add the new marker to your list of markers
-    setMapPositions((prevPositions) => [...prevPositions, newMarker]);
-  };
-  const handleTouchStart = (e) => {
-    const { lat, lng } = mapRef.current.leafletElement.mouseEventToLatLng(e.nativeEvent);
-    
-    // Create a new marker at the touched location
-    const newMarker = { lat, lng };
-
-    // Update the state or perform any other necessary actions
-    // For example, you can add the new marker to your list of markers
-    setMapPositions((prevPositions) => [...prevPositions, newMarker]);
-  };
   const [markerPosition, setMarkerPosition] = useState(null);
 
-  const AddMarkerToClickLocation = () => {
-    const map = useMapEvents({
-      click: (e) => {
-        setMarkerPosition(e.latlng);
-      },
-    });
 
-    return markerPosition ? (
-      <Marker position={markerPosition}>
-        <Popup>Marker at {markerPosition.lat}, {markerPosition.lng}</Popup>
-      </Marker>
-    ) : null;
-  };
-
+ console.log("markerPosition",markerPosition);
   return (
     <MapContainer
-    onTouchstart={handleTouchStart}
       center={coords}
       doubleClickZoom={false} // Disable default double-click zoom
-      ondblclick={handleMapDoubleClick} // Handle double-click event  
       zoom={userLocation ? 15 : 13}
       style={{
         height: ` ${height ? height : "30vh"}`,
@@ -372,14 +342,14 @@ function MapComponent({
           </Popup>
         </Marker>
       ))} */}
-      {!centerMap && (
+      {/* {!centerMap && (
         <DraggableMarker
           getPosition={getPosition}
           setMapPositions={setMapPositions}
           setShowMap={setShowMap}
           setSearchTerm={setSearchTerm}
         />
-      )}
+      )} */}
 
       {userLocation && (
         <Marker position={userLocation} icon={blueDotIcon}>
@@ -392,6 +362,7 @@ function MapComponent({
           </Popup>
         </Marker>
       )}
+         <ClickMarker setShowMap={setShowMap} getPosition={getPosition}/>
       {!centerMap ? (
         <MarkerClusterGroup>
           {Users?.map((el, index) => (
@@ -404,8 +375,7 @@ function MapComponent({
         </MarkerClusterGroup>
       )}
       <LocateControl />
-      <AddMarkerToClickLocation />
-    </MapContainer>
+   </MapContainer>
   );
 }
 

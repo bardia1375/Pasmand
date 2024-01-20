@@ -257,8 +257,20 @@ function MapComponent({
     // For example, you can add the new marker to your list of markers
     setMapPositions((prevPositions) => [...prevPositions, newMarker]);
   };
+  const handleTouchStart = (e) => {
+    const { lat, lng } = mapRef.current.leafletElement.mouseEventToLatLng(e.nativeEvent);
+    
+    // Create a new marker at the touched location
+    const newMarker = { lat, lng };
+
+    // Update the state or perform any other necessary actions
+    // For example, you can add the new marker to your list of markers
+    setMapPositions((prevPositions) => [...prevPositions, newMarker]);
+  };
+
   return (
     <MapContainer
+    onTouchstart={handleTouchStart}
       center={coords}
       doubleClickZoom={false} // Disable default double-click zoom
       ondblclick={handleMapDoubleClick} // Handle double-click event  

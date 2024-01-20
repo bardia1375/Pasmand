@@ -27,7 +27,7 @@ const PageTwo = ({ setPage }) => {
         </Title>
       </LoginStyles.PageTwoDetail>
       <LoginStyles.PageTwoList style={{ whiteSpace: "nowrap" }}>
-        <div>
+  
           <div
             style={{
               color: "#183573",

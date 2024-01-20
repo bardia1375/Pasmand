@@ -8,7 +8,7 @@ export const Container = styled.div`
   width: 100vw;
   max-width: 500px;
   color: ${({ theme }) => theme.color.primary};
-  background-image: linear-gradient(180deg, #d7ebee, #e4f3f4);
+  background-image: linear-gradient(180deg, #70e69f, #e4f3f4);
   box-shadow: inset 0px 0px 120px #75c9db59;
   justify-content: space-between;
   position: relative;

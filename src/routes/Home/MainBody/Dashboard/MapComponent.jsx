@@ -362,7 +362,7 @@ function MapComponent({
           </Popup>
         </Marker>
       )}
-         <ClickMarker setShowMap={setShowMap} getPosition={getPosition}/>
+       {(location.pathname==="/home" || location.pathname==="/order") ?"":  <ClickMarker setShowMap={setShowMap} getPosition={getPosition}/>}
       {!centerMap ? (
         <MarkerClusterGroup>
           {Users?.map((el, index) => (
